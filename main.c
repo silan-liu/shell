@@ -97,10 +97,12 @@ int lsh_launch(char **args)
   else
   {
     // why do while?
-    do
-    {
-      wpid = waitpid(pid, &status, WUNTRACED);
-    } while (!WIFEXITED(status));
+    wpid = waitpid(pid, &status, WUNTRACED);
+
+    // do
+    // {
+    //   wpid = waitpid(pid, &status, WUNTRACED);
+    // } while (!WIFEXITED(status));
   }
 
   return 1;
