@@ -50,7 +50,6 @@ char **lsh_parse_cmd(char *cmd)
   while (token != NULL)
   {
     tokens[position++] = token;
-    printf("token:%s\n", token);
 
     if (position >= buffSize)
     {
@@ -130,9 +129,14 @@ int lsh_num_builtions()
 
 int lsh_cd(char **args)
 {
+  if (args == NULL)
+  {
+    perror("cd args error!");
+  }
+
   if (args[1] == NULL)
   {
-    fprintf(stderr, "lsh: no args");
+    fprintf(stderr, "lsh: no args\n");
   }
   else
   {
@@ -141,19 +145,19 @@ int lsh_cd(char **args)
       perror("chdir error!");
     }
   }
-  return 0;
+  return 1;
 }
 
 int lsh_help(char **args)
 {
-  printf("lsh builtin cmd:");
+  printf("lsh builtin cmd:\n");
 
   for (int i = 0; i < lsh_num_builtions(); i++)
   {
     printf("  %s\n", builtin_str[i]);
   }
 
-  return 0;
+  return 1;
 }
 
 int lsh_exit(char **args)
@@ -164,6 +168,22 @@ int lsh_exit(char **args)
 // 执行命令
 int lsh_execute_cmd(char **args)
 {
+  if (args == NULL || args[0] == NULL)
+  {
+    return -1;
+  }
+
+  char *cmd = args[0];
+
+  for (int i = 0; i < lsh_num_builtions(); i++)
+  {
+    char *builtin_cmd = builtin_str[i];
+    if (strcmp(cmd, builtin_cmd) == 0)
+    {
+      return (*builtin_func[i])(args);
+    }
+  }
+
   return lsh_launch(args);
 }
 
@@ -176,15 +196,13 @@ void lsh_loop()
 
   do
   {
-    printf("silan> ");
+    printf("\n$ silan > ");
 
     // 读取
     cmd = lsh_read_cmd();
-    printf("cmd:%s\n", cmd);
 
     // 解析
     args = lsh_parse_cmd(cmd);
-    printf("args:%p\n", args);
 
     // 执行
     status = lsh_execute_cmd(args);
