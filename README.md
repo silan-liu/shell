@@ -339,6 +339,14 @@ int lsh_execute_cmd(char **args)
 
 整体实现起来还是比较简单的，希望对你有所帮助🤩~
 
+## 最后
+
+文章会同步发布到[简书](https://www.jianshu.com/u/9d9cf9760217)和公众号「微微笑的蜗牛」，欢迎扫码关注。
+
+
+![](https://cdn.jsdelivr.net/gh/silan-liu/picRepo/img20210131124048.jpg)
+
+
 ## 参考资料
 
 - [https://brennan.io/2015/01/16/write-a-shell-in-c/](https://brennan.io/2015/01/16/write-a-shell-in-c/)
